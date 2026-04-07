@@ -1,0 +1,13 @@
+name = "jinner-hr-system-api"
+main = "src/index.ts"
+compatibility_date = "2026-04-07"
+workers_dev = true
+
+[vars]
+ADMIN_DESKTOP_ORIGIN = "http://localhost:1420"
+EMPLOYEE_PWA_ORIGIN = "http://localhost:5173"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "jinner-hr-system-db"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"

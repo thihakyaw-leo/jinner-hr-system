@@ -1,0 +1,10 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./apps/admin-desktop" },
+    { "path": "./apps/employee-pwa" },
+    { "path": "./apps/backend-api" },
+    { "path": "./packages/ui-components" },
+    { "path": "./packages/shared-types" }
+  ]
+}

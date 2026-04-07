@@ -1,0 +1,23 @@
+{
+  "name": "@thihakyaw-leo/backend-api",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "wrangler deploy --dry-run --outdir dist",
+    "lint": "tsc --noEmit -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "deploy": "wrangler deploy",
+    "db:apply:local": "wrangler d1 execute jinner-hr-system-db --local --file schema.sql"
+  },
+  "dependencies": {
+    "@thihakyaw-leo/shared-types": "workspace:*",
+    "hono": "latest"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "latest",
+    "typescript": "latest",
+    "wrangler": "latest"
+  }
+}

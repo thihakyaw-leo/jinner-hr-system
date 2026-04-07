@@ -1,0 +1,29 @@
+{
+  "name": "@thihakyaw-leo/admin-desktop",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tauri dev",
+    "dev:web": "vite",
+    "build": "vite build",
+    "build:desktop": "tauri build",
+    "lint": "tsc --noEmit -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "latest",
+    "@thihakyaw-leo/shared-types": "workspace:*",
+    "@thihakyaw-leo/ui-components": "workspace:*",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@tauri-apps/cli": "latest",
+    "@vitejs/plugin-react": "^5.2.0",
+    "typescript": "latest",
+    "vite": "^7.3.2"
+  }
+}
