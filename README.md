@@ -1,6 +1,6 @@
 # Jinner HR System
 
-Jinner HR System is a Turborepo-based monorepo for an HR platform with:
+Jinner HR System is a Turborepo monorepo for an HR platform with:
 
 - `admin-desktop`: Tauri + React + Vite desktop app for HR administrators
 - `employee-pwa`: React + Vite mobile-first PWA for employees
@@ -23,17 +23,19 @@ Repository: [thihakyaw-leo/jinner-hr-system](https://github.com/thihakyaw-leo/ji
 
 ```text
 jinner-hr-system/
-├─ apps/
-│  ├─ admin-desktop/
-│  ├─ backend-api/
-│  └─ employee-pwa/
-├─ packages/
-│  ├─ shared-types/
-│  └─ ui-components/
-├─ package.json
-├─ pnpm-workspace.yaml
-├─ turbo.json
-└─ tsconfig.base.json
+|-- apps/
+|   |-- admin-desktop/
+|   |-- backend-api/
+|   `-- employee-pwa/
+|-- packages/
+|   |-- shared-types/
+|   `-- ui-components/
+|-- .github/
+|   `-- workflows/
+|-- package.json
+|-- pnpm-workspace.yaml
+|-- turbo.json
+`-- tsconfig.base.json
 ```
 
 ## Prerequisites
@@ -84,8 +86,8 @@ pnpm typecheck
 What they do:
 
 - `pnpm dev`: runs all workspace `dev` scripts through Turbo
-- `pnpm build`: builds all apps/packages
-- `pnpm lint`: currently runs TypeScript validation tasks
+- `pnpm build`: builds all apps and packages
+- `pnpm lint`: runs workspace validation tasks
 - `pnpm typecheck`: runs TypeScript checks across the monorepo
 
 ## Apps
@@ -106,7 +108,7 @@ Notes:
 
 - Vite dev server runs on `http://127.0.0.1:1420`
 - Tauri requires Rust to be installed
-- Current auth handling is scaffolded with an in-memory session strategy
+- Includes login, dashboard, employee management, and shared component usage
 
 ### `apps/employee-pwa`
 
@@ -123,6 +125,7 @@ Notes:
 
 - Vite dev server runs on `http://127.0.0.1:5173`
 - PWA manifest and service worker are generated during build
+- Includes login, attendance check-in, liabilities, and salary views
 
 ### `apps/backend-api`
 
@@ -135,6 +138,7 @@ pnpm --filter @thihakyaw-leo/backend-api dev
 pnpm --filter @thihakyaw-leo/backend-api build
 pnpm --filter @thihakyaw-leo/backend-api deploy
 pnpm --filter @thihakyaw-leo/backend-api db:apply:local
+pnpm --filter @thihakyaw-leo/backend-api db:seed:local
 ```
 
 Current API routes:
@@ -149,7 +153,7 @@ Current API routes:
 - `POST /api/attendance/check-in`
 - `GET /api/payroll/mine/latest`
 
-Database schema lives in [apps/backend-api/schema.sql](F:\jinner-hr-system\apps\backend-api\schema.sql).
+Database schema lives in [`apps/backend-api/schema.sql`](apps/backend-api/schema.sql).
 
 ## Shared Packages
 
@@ -188,9 +192,9 @@ Demo local credentials after running `db:seed:local`:
 
 ## Cloudflare D1 Setup
 
-The Worker is already configured with a D1 binding named `DB` in [apps/backend-api/wrangler.toml](F:\jinner-hr-system\apps\backend-api\wrangler.toml).
+The Worker is configured with a D1 binding named `DB` in [`apps/backend-api/wrangler.toml`](apps/backend-api/wrangler.toml).
 
-Before remote deploy, replace:
+Before remote deploy, replace this placeholder in `apps/backend-api/wrangler.toml`:
 
 - `database_id = "REPLACE_WITH_D1_DATABASE_ID"`
 
@@ -206,7 +210,7 @@ If you have not created the D1 database yet, create it with Wrangler first and t
 
 ## GitHub Actions Deployment
 
-This repository includes [deploy-cloudflare.yml](F:\jinner-hr-system\.github\workflows\deploy-cloudflare.yml) to deploy the backend Worker from GitHub Actions.
+This repository includes [`.github/workflows/deploy-cloudflare.yml`](.github/workflows/deploy-cloudflare.yml) to deploy the backend Worker from GitHub Actions.
 
 Add these repository secrets before enabling the workflow:
 
@@ -215,10 +219,10 @@ Add these repository secrets before enabling the workflow:
 
 The workflow:
 
-1. installs dependencies
-2. typechecks the workspace
-3. applies `schema.sql` to the remote D1 database
-4. deploys the Worker with Wrangler
+1. Installs dependencies
+2. Typechecks the workspace
+3. Applies `schema.sql` to the remote D1 database
+4. Deploys the Worker with Wrangler
 
 ## Development Flow
 
@@ -240,22 +244,24 @@ pnpm dev
 
 ## Verification
 
-The current scaffold has already been validated with:
+The current scaffold has been validated with:
 
 - workspace typecheck
+- workspace lint
 - Turbo build pipeline
 - Vite builds for both frontend apps
 - Wrangler dry-run build for the backend
 - local D1 schema application
+- local D1 seed application
 
 ## Current Status
 
 This repository currently provides:
 
 - monorepo architecture
-- backend schema and starter auth/attendance/liability APIs
-- admin desktop starter dashboard
-- employee PWA starter shell
+- backend schema and starter auth, employee, attendance, liability, and payroll APIs
+- admin desktop starter dashboard and employee management flow
+- employee PWA starter shell with login and self-service screens
 - shared UI and shared type packages
 
-Business feature implementation is still in the scaffold phase and can be expanded next.
+Business workflows can now be expanded on top of this scaffold.
