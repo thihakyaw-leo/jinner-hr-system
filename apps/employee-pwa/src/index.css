@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: "Outfit", "Segoe UI", sans-serif;
+    min-height: 100vh;
+    background: #f8fbff;
+  }
+
+  button {
+    font: inherit;
+  }
+}

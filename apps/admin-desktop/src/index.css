@@ -1,0 +1,24 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: "Space Grotesk", "Segoe UI", sans-serif;
+    min-height: 100vh;
+    background: #07111d;
+  }
+
+  button,
+  input {
+    font: inherit;
+  }
+}

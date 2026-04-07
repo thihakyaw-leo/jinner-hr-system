@@ -63,6 +63,13 @@ Install dependencies:
 pnpm install
 ```
 
+Seed a local D1 database with sample branches and demo users:
+
+```bash
+pnpm --filter @thihakyaw-leo/backend-api db:apply:local
+pnpm --filter @thihakyaw-leo/backend-api db:seed:local
+```
+
 ## Root Scripts
 
 From the repository root:
@@ -134,8 +141,13 @@ Current API routes:
 
 - `GET /health`
 - `POST /api/auth/login`
+- `GET /api/branches`
+- `GET /api/employees`
+- `POST /api/employees`
 - `POST /api/liabilities/create`
+- `GET /api/liabilities/mine`
 - `POST /api/attendance/check-in`
+- `GET /api/payroll/mine/latest`
 
 Database schema lives in [apps/backend-api/schema.sql](F:\jinner-hr-system\apps\backend-api\schema.sql).
 
@@ -168,6 +180,12 @@ Set at least:
 JWT_SECRET=replace-with-a-long-random-secret
 ```
 
+Demo local credentials after running `db:seed:local`:
+
+- Admin: `JNR-001` / `admin123`
+- Manager: `JNR-002` / `manager123`
+- Employee: `EMP-001` / `staff123`
+
 ## Cloudflare D1 Setup
 
 The Worker is already configured with a D1 binding named `DB` in [apps/backend-api/wrangler.toml](F:\jinner-hr-system\apps\backend-api\wrangler.toml).
@@ -185,6 +203,22 @@ pnpm --filter @thihakyaw-leo/backend-api deploy
 ```
 
 If you have not created the D1 database yet, create it with Wrangler first and then update `wrangler.toml` with the real database ID.
+
+## GitHub Actions Deployment
+
+This repository includes [deploy-cloudflare.yml](F:\jinner-hr-system\.github\workflows\deploy-cloudflare.yml) to deploy the backend Worker from GitHub Actions.
+
+Add these repository secrets before enabling the workflow:
+
+- `CLOUDFLARE_ACCOUNT_ID`
+- `CLOUDFLARE_API_TOKEN`
+
+The workflow:
+
+1. installs dependencies
+2. typechecks the workspace
+3. applies `schema.sql` to the remote D1 database
+4. deploys the Worker with Wrangler
 
 ## Development Flow
 
