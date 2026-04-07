@@ -4,6 +4,7 @@ build/
 .turbo/
 .wrangler/
 coverage/
+*.tsbuildinfo
 *.log
 pnpm-debug.log*
 npm-debug.log*
