@@ -10,4 +10,4 @@ EMPLOYEE_PWA_ORIGIN = "http://localhost:5173"
 [[d1_databases]]
 binding = "DB"
 database_name = "jinner-hr-system-db"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "60344eb2-0657-427a-bf9d-df429a9339ef"
