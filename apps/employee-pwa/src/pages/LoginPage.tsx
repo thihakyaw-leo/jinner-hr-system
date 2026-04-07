@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { GlassPanel } from '@thihakyaw-leo/ui-components';
+import { useTranslation } from 'react-i18next';
+import { Card, CardHeader, CardContent, CardTitle, CardDescription, Button, Input } from '@thihakyaw-leo/ui-components';
 
 type LoginPageProps = {
   isLoading: boolean;
@@ -8,52 +9,88 @@ type LoginPageProps = {
 };
 
 export function LoginPage({ isLoading, error, onSubmit }: LoginPageProps) {
+  const { t, i18n } = useTranslation();
   const [employeeCode, setEmployeeCode] = useState('');
   const [password, setPassword] = useState('');
 
-  return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.18),transparent_28%),linear-gradient(180deg,#f8fbff,#e6f0fb)] px-4 py-6 text-slate-900">
-      <div className="mx-auto flex min-h-[calc(100vh-3rem)] max-w-md items-center">
-        <GlassPanel className="w-full border border-slate-200/70 bg-white/85 !shadow-[0_24px_65px_rgba(15,23,42,0.12)]">
-          <div className="space-y-2 text-slate-900">
-            <p className="text-xs uppercase tracking-[0.32em] text-sky-700/70">Employee sign in</p>
-            <h1 className="text-3xl font-semibold text-slate-950">Access your HR portal</h1>
-            <p className="text-sm leading-6 text-slate-600">
-              Sign in with your employee code and password to check in and view payroll details.
-            </p>
-          </div>
+  const toggleLanguage = () => {
+    i18n.changeLanguage(i18n.language === 'en' ? 'my' : 'en');
+  };
 
+  return (
+    <main className="min-h-screen flex items-center justify-center p-4 lg:p-8">
+      {/* Floating Language Switcher */}
+      <div className="fixed top-6 right-6 z-50">
+        <button 
+          onClick={toggleLanguage}
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white backdrop-blur-md transition-all active:scale-95 shadow-lg"
+        >
+          {i18n.language === 'en' ? 'မြ' : 'EN'}
+        </button>
+      </div>
+
+      {/* Dynamic atmospheric glowing orbs */}
+      <div className="fixed top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="fixed bottom-1/4 right-1/4 w-[30rem] h-[30rem] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none" />
+
+      <Card className="w-full max-w-md relative z-10">
+        <CardHeader className="text-center pb-4 pt-10 border-none">
+          <div className="mx-auto w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-400 to-blue-600 mb-6 flex items-center justify-center shadow-lg shadow-blue-500/30">
+            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <p className="text-xs font-bold tracking-[0.3em] uppercase text-blue-400/80 mb-2">{t('login.app_name')}</p>
+          <CardTitle>{t('login.welcome_back')}</CardTitle>
+          <CardDescription className="mt-2 text-slate-300">
+            {t('login.description')}
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent className="pb-10">
           <form
-            className="mt-6 grid gap-4"
+            className="grid gap-5"
             onSubmit={(event) => {
               event.preventDefault();
               void onSubmit({ employee_code: employeeCode, password });
             }}
           >
-            <input
-              value={employeeCode}
-              onChange={(event) => setEmployeeCode(event.target.value)}
-              placeholder="Employee code"
-              className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400"
-            />
-            <input
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="Password"
-              className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400"
-            />
-            {error ? <p className="text-sm text-rose-600">{error}</p> : null}
-            <button
+            <div className="space-y-4">
+              <Input
+                label={t('login.emp_code_label')}
+                value={employeeCode}
+                onChange={(event) => setEmployeeCode(event.target.value)}
+                placeholder={t('login.emp_code_placeholder')}
+                required
+              />
+              <Input
+                label={t('login.password_label')}
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder={t('login.password_placeholder')}
+                required
+              />
+            </div>
+
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3">
+                <p className="text-sm text-red-400 text-center">{error}</p>
+              </div>
+            )}
+
+            <Button
               type="submit"
-              disabled={isLoading}
-              className="rounded-2xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+              variant="primary"
+              size="lg"
+              isLoading={isLoading}
+              className="w-full mt-2"
             >
-              {isLoading ? 'Signing in...' : 'Sign in'}
-            </button>
+              {isLoading ? t('login.signing_in') : t('login.sign_in_button')}
+            </Button>
           </form>
-        </GlassPanel>
-      </div>
+        </CardContent>
+      </Card>
     </main>
   );
 }

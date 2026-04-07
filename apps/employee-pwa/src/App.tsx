@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { MyLiabilitiesPage } from './pages/MyLiabilitiesPage';
@@ -8,18 +9,20 @@ import { useActiveTab } from './hooks/useActiveTab';
 import { useEmployeeData } from './hooks/useEmployeeData';
 import { useEmployeeSession } from './hooks/useEmployeeSession';
 
-const tabs = [
-  { id: 'home', label: 'Home' },
-  { id: 'liabilities', label: 'Liabilities' },
-  { id: 'salary', label: 'Salary' }
-] as const;
-
-type TabId = (typeof tabs)[number]['id'];
+const TAB_IDS = ['home', 'liabilities', 'salary'] as const;
+type TabId = (typeof TAB_IDS)[number];
 
 export default function App() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useActiveTab<TabId>('home');
   const { isReady, isLoading, error, login, logout, user, token, sessionLabel } = useEmployeeSession();
   const employeeData = useEmployeeData(token);
+
+  const tabs = useMemo(() => [
+    { id: 'home', label: t('nav.home') },
+    { id: 'liabilities', label: t('nav.liabilities') },
+    { id: 'salary', label: t('nav.payroll') }
+  ] as const, [t]);
 
   const page = useMemo(() => {
     if (!user) {
@@ -65,11 +68,12 @@ export default function App() {
         <div className="mb-4 flex items-center justify-between rounded-[24px] border border-white/80 bg-white/70 px-4 py-3 text-sm shadow-[0_12px_30px_rgba(15,23,42,0.08)]">
           <span className="truncate pr-3 text-slate-700">{sessionLabel}</span>
           <button type="button" onClick={logout} className="font-medium text-slate-950">
-            Sign out
+            {t('nav.sign_out')}
           </button>
         </div>
         {page}
-        <MobileBottomNav items={tabs} activeTab={activeTab} onChange={setActiveTab} />
+        {/* We cast here because exact inference over mapped mapped array loses literal string occasionally */}
+        <MobileBottomNav items={tabs as unknown as {id: TabId, label: string}[]} activeTab={activeTab} onChange={setActiveTab} />
       </div>
     </main>
   );

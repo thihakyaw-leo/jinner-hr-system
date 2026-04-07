@@ -1,5 +1,5 @@
-import { GlassPanel, StatusPill } from '@thihakyaw-leo/ui-components';
-import { CheckInButton } from '../components/CheckInButton';
+import { useTranslation } from 'react-i18next';
+import { Card, CardHeader, CardTitle, CardContent, Avatar, StatusPill, Button } from '@thihakyaw-leo/ui-components';
 
 type HomePageProps = {
   employeeName: string;
@@ -10,46 +10,78 @@ type HomePageProps = {
 };
 
 export function HomePage({ employeeName, onCheckIn, isLoading, lastCheckIn, error }: HomePageProps) {
+  const { t } = useTranslation();
+
   return (
-    <section className="space-y-4">
-      <header className="rounded-[32px] border border-white/70 bg-white/70 p-5 shadow-[0_24px_65px_rgba(15,23,42,0.1)] backdrop-blur-xl">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <p className="text-xs uppercase tracking-[0.32em] text-sky-700/70">Employee PWA</p>
-            <h1 className="mt-2 text-3xl font-semibold leading-tight text-slate-950">
-              Daily HR essentials in a mobile-first experience.
-            </h1>
-            <p className="mt-2 text-sm text-slate-600">{employeeName}</p>
-          </div>
-          <StatusPill label="PWA ready" tone="emerald" />
-        </div>
-      </header>
+    <section className="space-y-6 pb-24 px-4 pt-6 max-w-2xl mx-auto">
+      {/* Top Section */}
+      <h1 className="text-3xl font-light text-white tracking-tight">
+        {t('home.greeting')} <br />
+        <span className="font-semibold">{employeeName}</span>
+      </h1>
 
-      <GlassPanel className="border border-slate-200/70 bg-white/75 !shadow-[0_20px_55px_rgba(15,23,42,0.08)]">
-        <div className="space-y-4 text-slate-800">
-          <div>
-            <p className="text-xs uppercase tracking-[0.28em] text-slate-500">Check-in</p>
-            <h2 className="mt-2 text-2xl font-semibold text-slate-950">Start your workday</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              Use the button below to create a real attendance record in the backend.
+      {/* Main Check-In Widget */}
+      <Card className="bg-gradient-to-br from-indigo-500/10 to-blue-500/10 border-blue-500/20">
+        <CardContent className="p-6 flex flex-col items-center text-center">
+          <Avatar 
+            size="xl" 
+            fallback={employeeName} 
+            status="online" 
+            className="mb-4 shadow-[0_0_40px_rgba(56,189,248,0.3)]"
+          />
+          <StatusPill label={lastCheckIn ? t('home.checked_in') : t('home.not_checked_in')} tone={lastCheckIn ? "emerald" : "amber"} className="mb-6" />
+          
+          <Button 
+            variant="primary" 
+            size="lg" 
+            className="w-full text-lg py-4 rounded-full font-bold tracking-wide shadow-blue-500/40 transform active:scale-[0.98]"
+            onClick={() => void onCheckIn()}
+            isLoading={isLoading}
+          >
+            {lastCheckIn ? t('home.check_out_button') : t('home.check_in_button')}
+          </Button>
+
+          {lastCheckIn && (
+            <p className="mt-4 text-xs font-medium text-slate-400 uppercase tracking-wider">
+              {t('home.last_check_in')} <span className="text-blue-300">{new Date(lastCheckIn).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
             </p>
-          </div>
-          <CheckInButton disabled={isLoading} onClick={() => void onCheckIn()} />
-          {lastCheckIn ? (
-            <p className="text-sm text-emerald-700">Last check-in: {new Date(lastCheckIn).toLocaleString()}</p>
-          ) : null}
-          {error ? <p className="text-sm text-rose-600">{error}</p> : null}
-        </div>
-      </GlassPanel>
+          )}
+          {error && <p className="mt-3 text-sm text-red-400 bg-red-400/10 rounded-lg p-2">{error}</p>}
+        </CardContent>
+      </Card>
 
-      <div className="grid gap-4">
-        <GlassPanel className="border border-slate-200/70 bg-white/70 !shadow-[0_20px_55px_rgba(15,23,42,0.08)]">
-          <h2 className="text-lg font-semibold text-slate-950">Today summary</h2>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
-            Show shift info, branch notices, and pending actions here.
-          </p>
-        </GlassPanel>
+      {/* Grid Quick Stats */}
+      <div className="grid grid-cols-2 gap-4">
+        <Card className="hover:bg-white/10 transition-colors cursor-pointer group">
+          <CardContent className="p-5">
+            <p className="text-xs uppercase tracking-wider text-slate-400 font-medium mb-1 group-hover:text-cyan-300 transition-colors">{t('home.shift_label')}</p>
+            <p className="text-xl font-semibold text-white">09:00 - 18:00</p>
+          </CardContent>
+        </Card>
+        <Card className="hover:bg-white/10 transition-colors cursor-pointer group">
+          <CardContent className="p-5">
+            <p className="text-xs uppercase tracking-wider text-slate-400 font-medium mb-1 group-hover:text-indigo-300 transition-colors">{t('home.pending_label')}</p>
+            <p className="text-xl font-semibold text-white">{t('home.tasks_value', { count: 2 })}</p>
+          </CardContent>
+        </Card>
       </div>
+
+      {/* Announcements */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">{t('home.announcements_title')}</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="border-l-2 border-blue-400 pl-4 py-1.5 hover:bg-white/5 rounded-r-xl transition-all cursor-pointer">
+            <p className="text-sm font-medium text-white">{t('home.announcement_1')}</p>
+            <p className="text-xs text-slate-400 mt-0.5">{t('home.announcement_1_time')}</p>
+          </div>
+          <div className="border-l-2 border-slate-600 pl-4 py-1.5 hover:bg-white/5 rounded-r-xl transition-all cursor-pointer">
+            <p className="text-sm font-medium text-white">{t('home.announcement_2')}</p>
+            <p className="text-xs text-slate-400 mt-0.5">{t('home.announcement_2_time')}</p>
+          </div>
+        </CardContent>
+      </Card>
     </section>
   );
 }

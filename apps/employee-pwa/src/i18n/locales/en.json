@@ -1,0 +1,35 @@
+{
+  "login": {
+    "app_name": "Jinner HR System",
+    "welcome_back": "Welcome Back",
+    "description": "Enter your employee credentials to access your daily workspace.",
+    "emp_code_label": "Employee Code",
+    "emp_code_placeholder": "e.g. EMP-101",
+    "password_label": "Password",
+    "password_placeholder": "••••••••",
+    "sign_in_button": "Sign into Workspace",
+    "signing_in": "Signing in..."
+  },
+  "home": {
+    "greeting": "Good morning,",
+    "not_checked_in": "Not Checked In",
+    "checked_in": "Checked In",
+    "check_in_button": "Slide to Check In",
+    "check_out_button": "Check Out",
+    "last_check_in": "Last check-in:",
+    "shift_label": "Shift",
+    "pending_label": "Pending",
+    "tasks_value": "{{count}} Tasks",
+    "announcements_title": "Recent Announcements",
+    "announcement_1": "Company Monthly Sync",
+    "announcement_1_time": "Today at 14:00 PM",
+    "announcement_2": "System Maintenance",
+    "announcement_2_time": "Tomorrow night, 02:00 AM"
+  },
+  "nav": {
+    "home": "Home",
+    "liabilities": "Liabilities",
+    "payroll": "Payroll",
+    "sign_out": "Sign out"
+  }
+}

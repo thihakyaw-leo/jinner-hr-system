@@ -1,0 +1,35 @@
+{
+  "login": {
+    "app_name": "Jinner ဖုန်းအသုံးပြု စနစ်",
+    "welcome_back": "ပြန်လည် ကြိုဆိုပါသည်",
+    "description": "နေ့စဉ်လုပ်ငန်းခွင်သို့ဝင်ရောက်ရန် သင့်ဝန်ထမ်းနံပါတ်နှင့် စကားဝှက်ကို ထည့်သွင်းပါ။",
+    "emp_code_label": "ဝန်ထမ်းနံပါတ်",
+    "emp_code_placeholder": "ဥပမာ EMP-101",
+    "password_label": "စကားဝှက်",
+    "password_placeholder": "••••••••",
+    "sign_in_button": "အလုပ်ခွင်သို့ ဝင်ရောက်မည်",
+    "signing_in": "ဝင်ရောက်နေပါသည်..."
+  },
+  "home": {
+    "greeting": "မင်္ဂလာနံနက်ခင်းပါ၊",
+    "not_checked_in": "Check-in မလုပ်ရသေးပါ",
+    "checked_in": "Check-in ဝင်ပြီးပါပြီ",
+    "check_in_button": "အလုပ်ဝင်ရန် ဆွဲပါ",
+    "check_out_button": "Check Out",
+    "last_check_in": "နောက်ဆုံး Check-in ပြုလုပ်ချိန် -",
+    "shift_label": "အလုပ်ချိန်",
+    "pending_label": "လက်ကျန်လုပ်ငန်း",
+    "tasks_value": "လုပ်ငန်း {{count}} ခု",
+    "announcements_title": "နောက်ဆုံးရ ကြေညာချက်များ",
+    "announcement_1": "ကုမ္ပဏီ လစဉ်အစည်းအဝေး",
+    "announcement_1_time": "ယနေ့ ညနေ ၂:၀၀ နာရီ",
+    "announcement_2": "စနစ်ထိန်းသိမ်းမှု ပြုလုပ်ခြင်း",
+    "announcement_2_time": "မနက်ဖြန် ညဦးပိုင်း ၂:၀၀ နာရီ"
+  },
+  "nav": {
+    "home": "ပင်မစာမျက်နှာ",
+    "liabilities": "ကြွေးမြီမှတ်တမ်း",
+    "payroll": "လစာမှတ်တမ်း",
+    "sign_out": "အကောင့်ထွက်မည်"
+  }
+}

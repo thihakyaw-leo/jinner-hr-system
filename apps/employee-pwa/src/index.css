@@ -2,18 +2,43 @@
 @config "../tailwind.config.js";
 
 @layer base {
-  * {
-    box-sizing: border-box;
+  :root {
+    --bg-primary: #0a0f1c; /* Deep rich navy */
+    --bg-secondary: #0f162a; /* Slightly lighter navy */
+    --accent-glow: rgba(56, 189, 248, 0.15); /* Soft cyan glow */
+    --text-primary: #e2e8f0;
   }
 
   body {
     margin: 0;
-    font-family: "Outfit", "Segoe UI", sans-serif;
+    font-family: "Outfit", "Pyidaungsu", "Noto Sans Myanmar", "Segoe UI", sans-serif;
     min-height: 100vh;
-    background: #f8fbff;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.1) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, rgba(45, 212, 191, 0.1) 0px, transparent 50%);
+    background-attachment: fixed;
+    /* Soft smooth rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  button {
-    font: inherit;
+  /* Smooth scrollbars for 2026 feel */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
   }
 }

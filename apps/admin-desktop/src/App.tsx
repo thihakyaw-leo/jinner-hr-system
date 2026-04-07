@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { StatusPill } from '@thihakyaw-leo/ui-components';
 import { useApiHealth } from './hooks/useApiHealth';
 import { useAuthSession } from './hooks/useAuthSession';
@@ -8,19 +9,21 @@ import { LiabilitiesPage } from './pages/LiabilitiesPage';
 import { LoginPage } from './pages/LoginPage';
 import { PayrollPage } from './pages/PayrollPage';
 
-const navItems = [
-  { id: 'dashboard', label: 'Dashboard' },
-  { id: 'employees', label: 'Employees' },
-  { id: 'liabilities', label: 'Liabilities' },
-  { id: 'payroll', label: 'Payroll' }
-] as const;
-
-type AdminPageId = (typeof navItems)[number]['id'];
+const NAV_IDS = ['dashboard', 'employees', 'liabilities', 'payroll'] as const;
+type AdminPageId = (typeof NAV_IDS)[number];
 
 export default function App() {
+  const { t } = useTranslation();
   const [activePage, setActivePage] = useState<AdminPageId>('dashboard');
   const { healthStatus, apiBaseUrl } = useApiHealth();
   const { isReady, isLoading, error, login, logout, sessionLabel, token, user } = useAuthSession();
+
+  const navItems = useMemo(() => [
+    { id: 'dashboard', label: t('nav.dashboard') },
+    { id: 'employees', label: t('nav.employees') },
+    { id: 'liabilities', label: t('nav.liabilities') },
+    { id: 'payroll', label: t('nav.payroll') }
+  ] as const, [t]);
 
   const page = useMemo(() => {
     if (!token) {
@@ -53,7 +56,7 @@ export default function App() {
       <div className="mx-auto flex max-w-7xl flex-col gap-6">
         <header className="flex flex-col gap-4 rounded-[32px] border border-white/10 bg-white/6 p-5 shadow-[0_28px_80px_rgba(4,12,24,0.35)] backdrop-blur-2xl md:flex-row md:items-start md:justify-between">
           <div className="space-y-2">
-            <p className="text-xs uppercase tracking-[0.35em] text-sky-200/80">Jinner HR System</p>
+            <p className="text-xs uppercase tracking-[0.35em] text-sky-200/80">{t('login.app_name')}</p>
             <h1 className="max-w-3xl text-3xl font-semibold leading-tight md:text-5xl">
               Admin desktop control center for people, payroll, liabilities, and day-to-day HR operations.
             </h1>
@@ -67,7 +70,7 @@ export default function App() {
               onClick={logout}
               className="rounded-full border border-white/10 bg-white/6 px-4 py-2 text-sm text-slate-200 transition hover:bg-white/10"
             >
-              Sign out
+              {t('nav.sign_out')}
             </button>
           </div>
         </header>
@@ -83,7 +86,7 @@ export default function App() {
                   <button
                     key={item.id}
                     type="button"
-                    onClick={() => setActivePage(item.id)}
+                    onClick={() => setActivePage(item.id as AdminPageId)}
                     className={`w-full rounded-2xl px-4 py-3 text-left text-sm transition ${
                       isActive
                         ? 'bg-sky-400/20 text-white shadow-[inset_0_0_0_1px_rgba(125,211,252,0.25)]'

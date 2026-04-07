@@ -13,8 +13,10 @@
   "dependencies": {
     "@thihakyaw-leo/shared-types": "workspace:*",
     "@thihakyaw-leo/ui-components": "workspace:*",
+    "i18next": "^26.0.3",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-i18next": "^17.0.2"
   },
   "devDependencies": {
     "@tailwindcss/vite": "latest",

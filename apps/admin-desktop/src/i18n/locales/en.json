@@ -1,0 +1,20 @@
+{
+  "login": {
+    "app_name": "Jinner HR Admin",
+    "welcome_back": "Admin Login",
+    "description": "Enter your administrative credentials to access the central HR management dashboard.",
+    "emp_code_label": "Admin ID",
+    "emp_code_placeholder": "e.g. JNR-001",
+    "password_label": "Master Password",
+    "password_placeholder": "••••••••",
+    "sign_in_button": "Access Portal",
+    "signing_in": "Verifying..."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "employees": "Employees",
+    "payroll": "Payroll",
+    "branches": "Branches",
+    "sign_out": "Sign out"
+  }
+}
