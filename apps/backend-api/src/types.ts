@@ -23,6 +23,7 @@ export type AppEnv = {
   Bindings: {
     DB: D1Database;
     JWT_SECRET: string;
+    ALLOWED_ORIGINS?: string;
     ADMIN_DESKTOP_ORIGIN?: string;
     EMPLOYEE_PWA_ORIGIN?: string;
   };

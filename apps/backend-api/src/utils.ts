@@ -1,13 +1,23 @@
 import type { AppEnv } from './types';
 
+const localDevOrigins = [
+  'http://localhost:1420',
+  'http://127.0.0.1:1420',
+  'http://localhost:5173',
+  'http://127.0.0.1:5173'
+];
+
+const parseOrigins = (value?: string) =>
+  value
+    ?.split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean) ?? [];
+
 export const getAllowedOrigins = (env: AppEnv['Bindings']) => {
-  const origins = new Set([
-    'http://localhost:1420',
-    'http://127.0.0.1:1420',
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-    'tauri://localhost'
-  ]);
+  const configuredOrigins = parseOrigins(env.ALLOWED_ORIGINS);
+  const origins = new Set(configuredOrigins.length > 0 ? configuredOrigins : localDevOrigins);
+
+  origins.add('tauri://localhost');
 
   if (env.ADMIN_DESKTOP_ORIGIN) {
     origins.add(env.ADMIN_DESKTOP_ORIGIN);

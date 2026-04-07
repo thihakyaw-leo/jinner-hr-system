@@ -1,1 +1,5 @@
 JWT_SECRET=replace-with-a-long-random-secret
+ADMIN_DESKTOP_ORIGIN=http://127.0.0.1:1420
+EMPLOYEE_PWA_ORIGIN=http://127.0.0.1:5173
+# Optional: use a comma-separated list to lock CORS to production origins.
+# ALLOWED_ORIGINS=https://employee.example.com,https://admin.example.com

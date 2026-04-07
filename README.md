@@ -1,5 +1,7 @@
 # Jinner HR System
 
+[![Deploy Backend To Cloudflare](https://github.com/thihakyaw-leo/jinner-hr-system/actions/workflows/deploy-cloudflare.yml/badge.svg)](https://github.com/thihakyaw-leo/jinner-hr-system/actions/workflows/deploy-cloudflare.yml)
+
 Jinner HR System is a Turborepo monorepo for an HR platform with:
 
 - `admin-desktop`: Tauri + React + Vite desktop app for HR administrators
@@ -176,12 +178,15 @@ Create a local Worker env file from the example:
 
 ```bash
 copy apps\backend-api\.dev.vars.example apps\backend-api\.dev.vars
+copy apps\admin-desktop\.env.example apps\admin-desktop\.env.local
+copy apps\employee-pwa\.env.example apps\employee-pwa\.env.local
 ```
 
 Set at least:
 
 ```env
 JWT_SECRET=replace-with-a-long-random-secret
+VITE_API_BASE_URL=http://127.0.0.1:8787
 ```
 
 Demo local credentials after running `db:seed:local`:
@@ -190,13 +195,24 @@ Demo local credentials after running `db:seed:local`:
 - Manager: `JNR-002` / `manager123`
 - Employee: `EMP-001` / `staff123`
 
+## Production Frontend Configuration
+
+Before shipping the desktop app or the employee PWA, point both frontends at the live Worker URL:
+
+```env
+VITE_API_BASE_URL=https://jinner-hr-system-api.<your-workers-subdomain>.workers.dev
+```
+
+Recommended files:
+
+- `apps/admin-desktop/.env.production`
+- `apps/employee-pwa/.env.production`
+
+If you later host the employee PWA on a custom domain, update backend CORS by setting `ALLOWED_ORIGINS` or the specific origin vars before redeploying the Worker.
+
 ## Cloudflare D1 Setup
 
 The Worker is configured with a D1 binding named `DB` in [`apps/backend-api/wrangler.toml`](apps/backend-api/wrangler.toml).
-
-Before remote deploy, replace this placeholder in `apps/backend-api/wrangler.toml`:
-
-- `database_id = "REPLACE_WITH_D1_DATABASE_ID"`
 
 Typical flow:
 
@@ -208,6 +224,22 @@ pnpm --filter @thihakyaw-leo/backend-api deploy
 
 If you have not created the D1 database yet, create it with Wrangler first and then update `wrangler.toml` with the real database ID.
 
+## Production Backend Configuration
+
+Set these values in Cloudflare before production use:
+
+- `JWT_SECRET`: a long random secret used for signing tokens
+- `ALLOWED_ORIGINS`: optional comma-separated production origins for stricter CORS
+- `ADMIN_DESKTOP_ORIGIN`: optional explicit desktop web origin
+- `EMPLOYEE_PWA_ORIGIN`: optional explicit employee PWA origin
+
+Example:
+
+```env
+JWT_SECRET=replace-with-a-long-random-secret
+ALLOWED_ORIGINS=https://employee.example.com,https://admin.example.com
+```
+
 ## GitHub Actions Deployment
 
 This repository includes [`.github/workflows/deploy-cloudflare.yml`](.github/workflows/deploy-cloudflare.yml) to deploy the backend Worker from GitHub Actions.
@@ -216,6 +248,8 @@ Add these repository secrets before enabling the workflow:
 
 - `CLOUDFLARE_ACCOUNT_ID`
 - `CLOUDFLARE_API_TOKEN`
+
+The deploy job uses the GitHub environment `CLOUDFLARE_DEPLOY`, so store those secrets there for approval-gated production deploys.
 
 The workflow:
 
