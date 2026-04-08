@@ -16,6 +16,7 @@
     "@thihakyaw-leo/shared-types": "workspace:*",
     "@thihakyaw-leo/ui-components": "workspace:*",
     "i18next": "^26.0.3",
+    "lucide-react": "^1.7.0",
     "react": "latest",
     "react-dom": "latest",
     "react-i18next": "^17.0.2"

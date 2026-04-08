@@ -7,15 +7,7 @@ type GlassPanelProps = PropsWithChildren<{
 export function GlassPanel({ className = '', children }: GlassPanelProps) {
   return (
     <section
-      className={className}
-      style={{
-        padding: '24px',
-        borderRadius: '28px',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
-        background: 'linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06))',
-        boxShadow: '0 18px 55px rgba(4, 12, 24, 0.18)',
-        backdropFilter: 'blur(20px)'
-      }}
+      className={`rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(15,23,42,0.92),rgba(15,23,42,0.82))] p-6 shadow-[0_24px_70px_rgba(2,8,23,0.35)] backdrop-blur-3xl ${className}`}
     >
       {children}
     </section>

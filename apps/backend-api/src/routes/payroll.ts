@@ -28,4 +28,21 @@ payrollRoutes.get('/mine/latest', async (c) => {
   return c.json({ item: item ?? null });
 });
 
+payrollRoutes.delete('/:id', async (c) => {
+  const actor = c.get('jwtPayload');
+  const id = c.req.param('id');
+
+  if (actor.role !== 'owner') {
+    return c.json({ error: 'Only owners can delete payroll records.' }, 403);
+  }
+
+  const result = await c.env.DB.prepare('DELETE FROM payroll WHERE id = ?').bind(id).run();
+
+  if (!result.success) {
+    return c.json({ error: 'Unable to delete payroll record.' }, 500);
+  }
+
+  return c.json({ success: true, message: 'Payroll record deleted successfully.' });
+});
+
 export default payrollRoutes;

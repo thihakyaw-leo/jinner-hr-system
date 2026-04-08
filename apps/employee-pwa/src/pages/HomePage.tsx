@@ -1,16 +1,42 @@
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardHeader, CardTitle, CardContent, Avatar, StatusPill, Button } from '@thihakyaw-leo/ui-components';
 
 type HomePageProps = {
   employeeName: string;
   onCheckIn: () => Promise<void>;
+  onCheckOut: () => Promise<void>;
   isLoading: boolean;
   lastCheckIn: string | null;
   error: string | null;
 };
 
-export function HomePage({ employeeName, onCheckIn, isLoading, lastCheckIn, error }: HomePageProps) {
+export function HomePage({ employeeName, onCheckIn, onCheckOut, isLoading, lastCheckIn, error }: HomePageProps) {
   const { t } = useTranslation();
+  const [elapsedTime, setElapsedTime] = useState<string>('00:00:00');
+
+  useEffect(() => {
+    if (!lastCheckIn) {
+      setElapsedTime('00:00:00');
+      return;
+    }
+
+    const interval = setInterval(() => {
+      const start = new Date(lastCheckIn).getTime();
+      const now = new Date().getTime();
+      const diff = now - start;
+
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+
+      setElapsedTime(
+        `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+      );
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [lastCheckIn]);
 
   return (
     <section className="space-y-6 pb-24 px-4 pt-6 max-w-2xl mx-auto">
@@ -21,32 +47,54 @@ export function HomePage({ employeeName, onCheckIn, isLoading, lastCheckIn, erro
       </h1>
 
       {/* Main Check-In Widget */}
-      <Card className="bg-gradient-to-br from-indigo-500/10 to-blue-500/10 border-blue-500/20">
-        <CardContent className="p-6 flex flex-col items-center text-center">
-          <Avatar 
-            size="xl" 
-            fallback={employeeName} 
-            status="online" 
-            className="mb-4 shadow-[0_0_40px_rgba(56,189,248,0.3)]"
+      <Card className="border-sky-500/10 bg-[linear-gradient(135deg,rgba(14,165,233,0.1),rgba(79,70,229,0.08))] shadow-[0_20px_50px_rgba(2,8,23,0.4)] backdrop-blur-3xl">
+        <CardContent className="flex flex-col items-center p-8 text-center">
+          <Avatar
+            size="xl"
+            fallback={employeeName}
+            status={lastCheckIn ? 'online' : 'offline'}
+            className="mb-6 shadow-[0_0_50px_rgba(14,165,233,0.3)] ring-2 ring-sky-400/20"
           />
-          <StatusPill label={lastCheckIn ? t('home.checked_in') : t('home.not_checked_in')} tone={lastCheckIn ? "emerald" : "amber"} className="mb-6" />
-          
-          <Button 
-            variant="primary" 
-            size="lg" 
-            className="w-full text-lg py-4 rounded-full font-bold tracking-wide shadow-blue-500/40 transform active:scale-[0.98]"
-            onClick={() => void onCheckIn()}
+          <StatusPill
+            label={lastCheckIn ? t('home.checked_in') : t('home.not_checked_in')}
+            tone={lastCheckIn ? 'emerald' : 'amber'}
+            className="mb-8"
+          />
+
+          {lastCheckIn && (
+            <div className="mb-8">
+              <p className="font-mono text-5xl font-bold tracking-[0.15em] text-white">
+                {elapsedTime}
+              </p>
+              <p className="mt-3 text-[10px] font-bold uppercase tracking-[0.4em] text-sky-400">
+                {t('attendance.working_hours')}
+              </p>
+            </div>
+          )}
+
+          <Button
+            variant={lastCheckIn ? 'secondary' : 'primary'}
+            size="lg"
+            className="w-full shadow-2xl transition-all active:scale-[0.98]"
+            onClick={() => void (lastCheckIn ? onCheckOut() : onCheckIn())}
             isLoading={isLoading}
           >
             {lastCheckIn ? t('home.check_out_button') : t('home.check_in_button')}
           </Button>
 
           {lastCheckIn && (
-            <p className="mt-4 text-xs font-medium text-slate-400 uppercase tracking-wider">
-              {t('home.last_check_in')} <span className="text-blue-300">{new Date(lastCheckIn).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+            <p className="mt-6 text-xs font-semibold uppercase tracking-widest text-slate-400">
+              {t('home.last_check_in')}{' '}
+              <span className="text-sky-300">
+                {new Date(lastCheckIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </span>
             </p>
           )}
-          {error && <p className="mt-3 text-sm text-red-400 bg-red-400/10 rounded-lg p-2">{error}</p>}
+          {error && (
+            <div className="mt-4 rounded-xl border border-rose-500/20 bg-rose-500/10 p-3 text-sm text-rose-300">
+              {error}
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -72,13 +120,13 @@ export function HomePage({ employeeName, onCheckIn, isLoading, lastCheckIn, erro
           <CardTitle className="text-lg">{t('home.announcements_title')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="border-l-2 border-blue-400 pl-4 py-1.5 hover:bg-white/5 rounded-r-xl transition-all cursor-pointer">
-            <p className="text-sm font-medium text-white">{t('home.announcement_1')}</p>
-            <p className="text-xs text-slate-400 mt-0.5">{t('home.announcement_1_time')}</p>
+          <div className="border-l-2 border-sky-400/50 bg-sky-400/5 pl-4 py-2 hover:bg-sky-400/10 rounded-r-2xl transition-all cursor-pointer group">
+            <p className="text-sm font-semibold text-white group-hover:text-sky-300 transition-colors">{t('home.announcement_1')}</p>
+            <p className="text-[10px] uppercase tracking-wider text-slate-500 mt-1">{t('home.announcement_1_time')}</p>
           </div>
-          <div className="border-l-2 border-slate-600 pl-4 py-1.5 hover:bg-white/5 rounded-r-xl transition-all cursor-pointer">
-            <p className="text-sm font-medium text-white">{t('home.announcement_2')}</p>
-            <p className="text-xs text-slate-400 mt-0.5">{t('home.announcement_2_time')}</p>
+          <div className="border-l-2 border-white/10 bg-white/5 pl-4 py-2 hover:bg-white/10 rounded-r-2xl transition-all cursor-pointer group">
+            <p className="text-sm font-semibold text-white group-hover:text-slate-200 transition-colors">{t('home.announcement_2')}</p>
+            <p className="text-[10px] uppercase tracking-wider text-slate-500 mt-1">{t('home.announcement_2_time')}</p>
           </div>
         </CardContent>
       </Card>

@@ -1,5 +1,7 @@
 {
-  "cSpell.words": [
+  "version": "0.2",
+  "language": "en",
+  "words": [
     "thihakyaw",
     "jinner",
     "STRFTIME",
@@ -12,7 +14,16 @@
     "Glassmorphism",
     "Vite",
     "notif",
+    "role-base",
+    "rbac",
+    "MMK",
     "PWA",
-    "MMK"
+    "Hono",
+    "Cloudflare",
+    "D1",
+    "Wrangler",
+    "Pnpm",
+    "Typescript",
+    "glassmorphic"
   ]
 }

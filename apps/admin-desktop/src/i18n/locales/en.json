@@ -13,8 +13,43 @@
   "nav": {
     "dashboard": "Dashboard",
     "employees": "Employees",
+    "attendance": "Attendance",
     "payroll": "Payroll",
     "branches": "Branches",
+    "liabilities": "Liabilities",
+    "leave_approvals": "Leave Approvals",
     "sign_out": "Sign out"
+  },
+  "shell": {
+    "dashboard_title": "Admin operations overview",
+    "dashboard_description": "Track module readiness, service health, and the current rollout across the desktop workspace.",
+    "employees_title": "Employee management",
+    "employees_description": "Manage employee access, roles, branch assignments, and salary baselines from a single workspace.",
+    "attendance_title": "Attendance workspace",
+    "attendance_description": "Review leave requests inside the attendance workspace for manager and owner approvals.",
+    "liabilities_title": "Liabilities workspace",
+    "liabilities_description": "Track deduction flows, liability creation rules, and finance-ready backend contracts.",
+    "payroll_title": "Payroll workspace",
+    "payroll_description": "Monitor payroll rollout status and the routes required for monthly settlement.",
+    "modules": "Modules",
+    "signed_in_user": "Signed in user"
+  },
+  "leave": {
+    "title": "Leave Request Approvals",
+    "no_requests": "No pending leave requests.",
+    "approve": "Approve",
+    "reject": "Reject",
+    "status_pending": "Pending",
+    "status_approved": "Approved",
+    "status_rejected": "Rejected",
+    "employee": "Employee",
+    "type": "Leave Type",
+    "dates": "Dates",
+    "reason": "Reason",
+    "action": "Action",
+    "annual": "Annual",
+    "sick": "Sick",
+    "personal": "Personal",
+    "unpaid": "Unpaid"
   }
 }

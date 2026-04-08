@@ -53,6 +53,10 @@ export function useAuthSession() {
         throw new Error('error' in payload ? payload.error : 'Login failed.');
       }
 
+      if (payload.user.role !== 'owner' && payload.user.role !== 'manager') {
+        throw new Error('Access denied. Only owners and managers can access the admin center.');
+      }
+
       const nextSession = {
         token: payload.token,
         user: payload.user

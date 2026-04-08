@@ -14,13 +14,16 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={`w-full ${className}`}>
         {label && (
-          <label htmlFor={inputId} className="block text-sm font-medium tracking-wide text-slate-300 mb-2 pl-1">
+          <label
+            htmlFor={inputId}
+            className="mb-2.5 block pl-1 text-[11px] font-medium uppercase tracking-[0.25em] text-slate-400 group-focus-within:text-sky-300 transition-colors"
+          >
             {label}
           </label>
         )}
         <div className="relative group">
           {icon && (
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pt-0 pointer-events-none text-slate-400 group-focus-within:text-blue-400 transition-colors">
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 pt-0 text-slate-400 transition-colors group-focus-within:text-sky-400">
               {icon}
             </div>
           )}
@@ -28,20 +31,20 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             id={inputId}
             ref={ref}
             className={`
-              block w-full rounded-2xl bg-white/5 border border-white/10 
-              text-white placeholder-slate-400 backdrop-blur-xl
+              block w-full rounded-[22px] bg-slate-900/40 border border-white/10 
+              text-white placeholder-slate-500 backdrop-blur-xl
               transition-all duration-300 ease-out
-              focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400 focus:bg-white/10
-              hover:bg-white/10 hover:border-white/20
-              ${icon ? 'pl-11' : 'pl-4'}
-              ${error ? 'border-red-500/50 focus:border-red-500 focus:ring-red-500/50' : ''}
-              py-3
+              focus:ring-2 focus:ring-sky-500/25 focus:border-sky-400/50 focus:bg-slate-900/60
+              hover:bg-slate-950/60 hover:border-white/20
+              ${icon ? 'pl-12' : 'pl-5'}
+              ${error ? 'border-red-500/30 focus:border-red-500/50 focus:ring-red-500/20' : ''}
+              py-3.5 text-sm
             `}
             {...props}
           />
         </div>
         {error && (
-          <p className="mt-2 text-sm text-red-400 font-medium pl-1 animate-pulse">
+          <p className="mt-2.5 pl-1 text-xs font-medium tracking-wide text-red-400">
             {error}
           </p>
         )}

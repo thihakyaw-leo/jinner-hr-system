@@ -1,9 +1,9 @@
 {
   "login": {
     "app_name": "Jinner စီမံခန့်ခွဲမှုစနစ်",
-    "welcome_back": "အက်ဒမင် လော့ဂ်အင်",
-    "description": "HR စီမံခန့်ခွဲမှု ပင်မစာမျက်နှာသို့ ဝင်ရောက်ရန် သင်၏ အက်ဒမင် အကောင့်အချက်အလက်ကို ထည့်သွင်းပါ။",
-    "emp_code_label": "အက်ဒမင် အိုင်ဒီ",
+    "welcome_back": "အက်ဒ်မင် လော့ဂ်အင်",
+    "description": "HR စီမံခန့်ခွဲမှု ပင်မစာမျက်နှာသို့ ဝင်ရောက်ရန် သင့်အက်ဒ်မင် အကောင့်အချက်အလက်ကို ထည့်သွင်းပါ။",
+    "emp_code_label": "အက်ဒ်မင် အိုင်ဒီ",
     "emp_code_placeholder": "ဥပမာ JNR-001",
     "password_label": "ပင်မ စကားဝှက်",
     "password_placeholder": "••••••••",
@@ -11,10 +11,45 @@
     "signing_in": "စစ်ဆေးနေပါသည်..."
   },
   "nav": {
-    "dashboard": "စီမံခန့်ခွဲမှုစခရင်",
+    "dashboard": "စီမံခန့်ခွဲမှု အကျဉ်းချုပ်",
     "employees": "ဝန်ထမ်းစာရင်း",
+    "attendance": "တက်ရောက်မှု",
     "payroll": "လစာထုတ်ပေးမှု",
     "branches": "ရုံးခွဲများ",
+    "liabilities": "ကြွေးမြီများ",
+    "leave_approvals": "ခွင့်ပြုချက်များ",
     "sign_out": "အကောင့်ထွက်မည်"
+  },
+  "shell": {
+    "dashboard_title": "စီမံခန့်ခွဲမှု အကျဉ်းချုပ်",
+    "dashboard_description": "Desktop workspace အတွင်း module အဆင်သင့်ဖြစ်မှု၊ service health နှင့် လက်ရှိ rollout ကို စောင့်ကြည့်ပါ။",
+    "employees_title": "ဝန်ထမ်းစီမံခန့်ခွဲမှု",
+    "employees_description": "ဝန်ထမ်းအကောင့်၊ role၊ branch နှင့် salary baseline များကို တစ်နေရာတည်းမှ စီမံပါ။",
+    "attendance_title": "တက်ရောက်မှု workspace",
+    "attendance_description": "Manager နှင့် owner approval အတွက် leave request များကို attendance workspace အတွင်း စစ်ဆေးပါ။",
+    "liabilities_title": "ကြွေးမြီ workspace",
+    "liabilities_description": "Deduction flow၊ liability creation rule နှင့် finance backend contract များကို ကြည့်ရှုပါ။",
+    "payroll_title": "လစာ workspace",
+    "payroll_description": "လစဉ် settlement အတွက် payroll rollout အခြေအနေ နှင့် လိုအပ်သော route များကို စောင့်ကြည့်ပါ။",
+    "modules": "Module များ",
+    "signed_in_user": "လက်ရှိဝင်ထားသောအသုံးပြုသူ"
+  },
+  "leave": {
+    "title": "ခွင့်တောင်းခံမှု ခွင့်ပြုချက်များ",
+    "no_requests": "ခွင့်တောင်းခံမှု မရှိသေးပါ။",
+    "approve": "ခွင့်ပြုမည်",
+    "reject": "ပယ်ချမည်",
+    "status_pending": "စီစစ်ဆဲ",
+    "status_approved": "ခွင့်ပြုပြီး",
+    "status_rejected": "ပယ်ချပြီး",
+    "employee": "ဝန်ထမ်း",
+    "type": "ခွင့်အမျိုးအစား",
+    "dates": "ရက်စွဲ",
+    "reason": "အကြောင်းပြချက်",
+    "action": "လုပ်ဆောင်ချက်",
+    "annual": "နှစ်စဉ်ခွင့်",
+    "sick": "ဖျားနာခွင့်",
+    "personal": "ကိုယ်ရေးခွင့်",
+    "unpaid": "လစာမဲ့ခွင့်"
   }
 }

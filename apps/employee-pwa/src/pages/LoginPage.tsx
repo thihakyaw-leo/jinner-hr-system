@@ -8,89 +8,118 @@ type LoginPageProps = {
   onSubmit: (input: { employee_code: string; password: string }) => Promise<unknown>;
 };
 
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Card, CardHeader, CardContent, CardTitle, CardDescription, Button, Input } from '@thihakyaw-leo/ui-components';
+import { KeyRound, Languages, User } from 'lucide-react';
+
+type LoginPageProps = {
+  isLoading: boolean;
+  error: string | null;
+  onSubmit: (input: { employee_code: string; password: string }) => Promise<unknown>;
+};
+
 export function LoginPage({ isLoading, error, onSubmit }: LoginPageProps) {
   const { t, i18n } = useTranslation();
   const [employeeCode, setEmployeeCode] = useState('');
   const [password, setPassword] = useState('');
 
   const toggleLanguage = () => {
-    i18n.changeLanguage(i18n.language === 'en' ? 'my' : 'en');
+    void i18n.changeLanguage(i18n.language === 'en' ? 'my' : 'en');
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center p-4 lg:p-8">
+    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#020617] p-6 text-slate-100 selection:bg-sky-500/30">
+      {/* Immersive background effects */}
+      <div className="pointer-events-none absolute -left-[10%] -top-[10%] h-[400px] w-[400px] rounded-full bg-sky-500/10 blur-[100px]" />
+      <div className="pointer-events-none absolute -bottom-[10%] -right-[10%] h-[400px] w-[400px] rounded-full bg-indigo-500/10 blur-[100px]" />
+
       {/* Floating Language Switcher */}
-      <div className="fixed top-6 right-6 z-50">
-        <button 
+      <div className="fixed right-6 top-6 z-50">
+        <button
+          type="button"
           onClick={toggleLanguage}
-          className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white backdrop-blur-md transition-all active:scale-95 shadow-lg"
+          title={i18n.language === 'en' ? 'Myanmar' : 'English'}
+          aria-label={i18n.language === 'en' ? 'Switch to Myanmar' : 'Switch to English'}
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 backdrop-blur-xl transition-all hover:bg-white/10 hover:text-white active:scale-95 shadow-2xl"
         >
-          {i18n.language === 'en' ? 'မြ' : 'EN'}
+          <Languages className="h-4 w-4" />
         </button>
       </div>
 
-      {/* Dynamic atmospheric glowing orbs */}
-      <div className="fixed top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="fixed bottom-1/4 right-1/4 w-[30rem] h-[30rem] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none" />
-
-      <Card className="w-full max-w-md relative z-10">
-        <CardHeader className="text-center pb-4 pt-10 border-none">
-          <div className="mx-auto w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-400 to-blue-600 mb-6 flex items-center justify-center shadow-lg shadow-blue-500/30">
-            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
+      <div className="relative z-10 w-full max-w-[440px]">
+        {/* Mobile-centric header */}
+        <header className="mb-8 text-center">
+          <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-[20px] bg-gradient-to-br from-sky-400 to-indigo-600 shadow-[0_0_30px_rgba(14,165,233,0.2)]">
+            <span className="text-xl font-bold text-white">J</span>
           </div>
-          <p className="text-xs font-bold tracking-[0.3em] uppercase text-blue-400/80 mb-2">{t('login.app_name')}</p>
-          <CardTitle>{t('login.welcome_back')}</CardTitle>
-          <CardDescription className="mt-2 text-slate-300">
-            {t('login.description')}
-          </CardDescription>
-        </CardHeader>
+          <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-sky-400/80">
+            {t('login.app_name')}
+          </p>
+          <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white">
+            {t('login.welcome_back')}
+          </h1>
+        </header>
 
-        <CardContent className="pb-10">
-          <form
-            className="grid gap-5"
-            onSubmit={(event) => {
-              event.preventDefault();
-              void onSubmit({ employee_code: employeeCode, password });
-            }}
-          >
-            <div className="space-y-4">
+        <Card className="border-white/[0.06] bg-slate-900/40 shadow-2xl backdrop-blur-3xl">
+          <CardHeader className="border-none pb-2 pt-8 text-center">
+            <CardDescription className="text-slate-400">
+              {t('login.description')}
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className="pb-8 pt-6">
+            <form
+              className="space-y-5"
+              onSubmit={(event) => {
+                event.preventDefault();
+                void onSubmit({ employee_code: employeeCode, password });
+              }}
+            >
               <Input
                 label={t('login.emp_code_label')}
                 value={employeeCode}
                 onChange={(event) => setEmployeeCode(event.target.value)}
                 placeholder={t('login.emp_code_placeholder')}
+                icon={<User className="h-5 w-5" />}
                 required
               />
+
               <Input
                 label={t('login.password_label')}
                 type="password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 placeholder={t('login.password_placeholder')}
+                icon={<KeyRound className="h-5 w-5" />}
                 required
               />
-            </div>
 
-            {error && (
-              <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3">
-                <p className="text-sm text-red-400 text-center">{error}</p>
-              </div>
-            )}
+              {error ? (
+                <div className="rounded-2xl border border-rose-500/20 bg-rose-500/10 p-4 text-sm text-rose-300">
+                  {error}
+                </div>
+              ) : null}
 
-            <Button
-              type="submit"
-              variant="primary"
-              size="lg"
-              isLoading={isLoading}
-              className="w-full mt-2"
-            >
-              {isLoading ? t('login.signing_in') : t('login.sign_in_button')}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+              <Button
+                type="submit"
+                variant="primary"
+                size="lg"
+                className="w-full"
+                isLoading={isLoading}
+              >
+                {isLoading ? t('login.signing_in') : t('login.sign_in_button')}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+
+        <footer className="mt-8 text-center">
+          <p className="text-[10px] uppercase tracking-widest text-slate-500">
+            Powered by Jinner Ecosystem
+          </p>
+        </footer>
+      </div>
     </main>
   );
 }

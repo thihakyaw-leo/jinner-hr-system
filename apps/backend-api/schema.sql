@@ -13,9 +13,13 @@ CREATE TABLE IF NOT EXISTS employees (
     branch_id TEXT NOT NULL,
     name TEXT NOT NULL,
     password_hash TEXT NOT NULL,
-    role TEXT NOT NULL CHECK (role IN ('admin', 'manager', 'staff')),
+    role TEXT NOT NULL CHECK (role IN ('owner', 'manager', 'cashier', 'sales')),
     status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'inactive')),
+    basic_salary REAL NOT NULL DEFAULT 0,
     is_first_login INTEGER NOT NULL DEFAULT 1 CHECK (is_first_login IN (0, 1)),
+    phone TEXT,
+    address TEXT,
+    email TEXT,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (branch_id) REFERENCES branches(id) ON DELETE RESTRICT
@@ -58,10 +62,40 @@ CREATE TABLE IF NOT EXISTS payroll (
     UNIQUE (employee_id, month, year)
 );
 
+CREATE TABLE IF NOT EXISTS leave_requests (
+    id TEXT PRIMARY KEY,
+    employee_id TEXT NOT NULL,
+    leave_type TEXT NOT NULL CHECK (leave_type IN ('annual', 'sick', 'personal', 'unpaid')),
+    start_date TEXT NOT NULL,
+    end_date TEXT NOT NULL,
+    reason TEXT,
+    status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
+    reviewed_by TEXT,
+    reviewed_at TEXT,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE,
+    FOREIGN KEY (reviewed_by) REFERENCES employees(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS notifications (
+    id TEXT PRIMARY KEY,
+    employee_id TEXT NOT NULL,
+    title TEXT NOT NULL,
+    body TEXT NOT NULL,
+    type TEXT NOT NULL DEFAULT 'info' CHECK (type IN ('info', 'success', 'warning', 'alert')),
+    is_read INTEGER NOT NULL DEFAULT 0 CHECK (is_read IN (0, 1)),
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE
+);
+
 CREATE INDEX IF NOT EXISTS idx_employees_branch_id ON employees(branch_id);
 CREATE INDEX IF NOT EXISTS idx_attendance_employee_work_date ON attendance(employee_id, work_date);
 CREATE INDEX IF NOT EXISTS idx_liabilities_employee_id ON liabilities(employee_id);
 CREATE INDEX IF NOT EXISTS idx_payroll_employee_period ON payroll(employee_id, year, month);
+CREATE INDEX IF NOT EXISTS idx_leave_requests_employee_id ON leave_requests(employee_id);
+CREATE INDEX IF NOT EXISTS idx_leave_requests_status ON leave_requests(status);
+CREATE INDEX IF NOT EXISTS idx_notifications_employee_id ON notifications(employee_id);
+CREATE INDEX IF NOT EXISTS idx_notifications_is_read ON notifications(employee_id, is_read);
 
 CREATE TRIGGER IF NOT EXISTS trg_employees_updated_at
 AFTER UPDATE ON employees
